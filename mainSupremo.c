@@ -95,7 +95,7 @@ void agregarProducto(Map* mapa){
     if(searchMap(mapa, new->nombre) != NULL){
         Producto * copiaProd = searchMap(mapa, new->nombre);
 
-        printf("\nProducto existente\n");
+        printf("\nProducto existente\n\n");
         printf("No agregar (1)\nAgregar de todas formas (2)\n > ");
         int resultado;
         scanf("%d", &resultado);
@@ -105,12 +105,11 @@ void agregarProducto(Map* mapa){
             eraseMap(mapa, new->nombre);
             printf("Ingrese la cantidad: \n > ");
             scanf("%d", &cantidadAgregada);
-            printf("\n");
             copiaProd->stock += cantidadAgregada;
             insertMap(mapa,new->nombre,copiaProd);
-            printf("\n\n");
+            printf("\n________________\n\n");
             return;
-        } else{ free(new); return; }
+        } else{ free(new);printf("\n________________\n\n"); return; }
     }
     fflush(stdin);
     printf("Ingrese tipo del producto: \n > ");
@@ -129,7 +128,7 @@ void agregarProducto(Map* mapa){
 
     printf("Ingrese precio del producto: \n > ");
     scanf("%ld", &new->precio);
-    printf("\n\n");
+    printf("\n________________\n\n");
 
     insertMap(mapa, new->nombre, new);
 }
@@ -148,7 +147,7 @@ void importarCSV(Map * mapaNombre){
     FILE *fp = fopen(nombreArchivo,"r");
 
     if (fp == NULL){
-        printf("Archivo no existe\n");
+        printf("Archivo no existe\n________________\n\n");
         return;
     }
 
@@ -169,8 +168,8 @@ void importarCSV(Map * mapaNombre){
         insertMap(mapaNombre,(new->nombre),new);
     }
 
-    printf("Archivo importado con exito\n");
-    
+    printf("Archivo importado con exito\n________________\n\n");
+
     fclose(fp);
 }
 
@@ -187,7 +186,8 @@ void mostrarMapa(Map * mapa){
         aux = nextMap(mapa);
         k++;
     }
-    if (!k) printf("No hay productos\n");
+    if (!k) printf("No hay productos\n________________\n\n");
+    else printf("________________\n\n");
 }
 
 void MostrarPorNombre(Map * mapa){
@@ -205,12 +205,12 @@ void MostrarPorNombre(Map * mapa){
         printf("Nombre no existente");
         printf("\nPara agregar (1)\nVolver al Menu Principal (2)\n > ");
         scanf("%d", &res);
-        printf("\n\n");
+        printf("\n________________\n\n");
         if(res == 1) agregarProducto(mapa);
         else return;
     } 
     mostrarProducto(aux);
-    printf("\n");
+    printf("________________\n\n");
 }
 
 void MostrarPorTipo(Map * mapa){
@@ -230,7 +230,8 @@ void MostrarPorTipo(Map * mapa){
         }
         aux = nextMap(mapa);
     }
-    if (!k) printf("Tipo no existente\n\n");
+    if (!k) printf("Tipo no existente\n________________\n\n");
+    else printf("________________\n\n");
 }
 
 void MostrarPorMarca(Map * mapa){
@@ -250,7 +251,8 @@ void MostrarPorMarca(Map * mapa){
         }
         aux = nextMap(mapa);
     }
-    if (!k) printf("Marca no existente\n\n");
+    if (!k) printf("Marca no existente\n________________\n\n");
+    else printf("________________\n\n");
 }
 
 ProductoCarrito * searchList(List * lista, Producto * buscado){
@@ -274,7 +276,7 @@ void agregarDataCarrito(Map * mapa, Map* carrito){
 
     Producto * prod = searchMap(mapa, nombreProd);
     if (prod == NULL){
-        printf("Producto no existente\n\n");
+        printf("Producto no existente\n________________\n\n");
         free(nombreProd);
         return;
     }
@@ -301,7 +303,7 @@ void agregarDataCarrito(Map * mapa, Map* carrito){
 
     if (auxC == NULL){
         if (new->producto->stock < cant){
-        printf("No hay stock suficiente de este producto\nStock: %d\n", new->producto->stock);
+        printf("No hay stock suficiente de este producto\nStock: %d\n________________\n\n", new->producto->stock);
         return;
     }
         List * listaP = createList();
@@ -314,7 +316,7 @@ void agregarDataCarrito(Map * mapa, Map* carrito){
         if (auxP != NULL){
             printf("Producto ya existe en el carrito\n");
             if (new->producto->stock < new->producto->stock + cant){
-                printf("No hay suficiente stock\nStock: %d\n", new->producto->stock);
+                printf("No hay suficiente stock\nStock: %d\n________________\n\n", new->producto->stock);
             }
             else auxP->cantidad += cant;
             return;
@@ -322,7 +324,7 @@ void agregarDataCarrito(Map * mapa, Map* carrito){
     }
     new->cantidad = cant;
     pushBack(auxC, new);
-    printf("Se agrego correctamente el producto\n");
+    printf("Se agrego correctamente el producto\n________________\n\n");
 }
 
 void mostrarListaCarrito(List * lista){
@@ -340,7 +342,7 @@ void mostrarListaCarrito(List * lista){
 void mostrarProductosCarrito(Map * carrito){
     List * aux = firstMap(carrito);
     if(aux==NULL){
-        printf("No hay carritos\n");
+        printf("No hay carritos\n________________\n\n");
         return;
     }
 
@@ -348,6 +350,7 @@ void mostrarProductosCarrito(Map * carrito){
         mostrarListaCarrito(aux);
         aux = nextMap(carrito);
     }
+    printf("\n________________\n\n");
 }
 
 void eliminarDataCarrito(Map * carrito){
@@ -360,7 +363,7 @@ void eliminarDataCarrito(Map * carrito){
 
     List * lista = searchMap(carrito, nombreCarrito);
     if (lista == NULL){
-        printf("El carrito buscado no existe\n");
+        printf("El carrito buscado no existe\n________________\n\n");
         return;
     }
     ProductoCarrito * ultimo = lastList(lista);
@@ -380,10 +383,10 @@ void eliminarDataCarrito(Map * carrito){
             eraseMap(carrito, nombreCarrito);
             printf("Carrito ya no contiene productos\nCarrito eliminado con exito\n");
         }
-
+        printf("________________\n\n");
         return;
     }
-    printf("No se elimino el producto\n");
+    printf("No se elimino el producto\n________________\n\n");
 }
 
 size_t calcularPrecioTotal(List * lista){
@@ -391,7 +394,7 @@ size_t calcularPrecioTotal(List * lista){
     size_t total = 0;
 
     while (aux != NULL){
-        total += aux->producto->precio;
+        total = total + (aux->producto->precio * aux->cantidad);
         aux = nextList(lista);
     }
     return total;
@@ -416,7 +419,7 @@ void concretarCompra(Map * carrito){
 
     List * lista = searchMap(carrito, nombreCarrito);
     if (lista == NULL){
-        printf("El carrito buscado no existe\n");
+        printf("El carrito buscado no existe\n________________\n\n");
         free(nombreCarrito);
         return;
     }
@@ -435,15 +438,15 @@ void concretarCompra(Map * carrito){
     if (res == 1){
         restarStock(lista);
         eraseMap(carrito, nombreCarrito);
-        printf("Compra finalizada\n$%ld\n", total);
+        printf("Compra finalizada\n$%ld\n________________\n\n", total);
         return;
     }
-    printf("No se realizo la compra\n");
+    printf("No se realizo la compra\n________________\n\n");
 }
 
 bool menu(Map * mapa, Map * carrito){
     int res;
-    printf ("________________\nQue desea hacer?\nCatalogo de productos(1)\nCarritos de compra(2)\nImportar Archivo (3)\nEXIT(4)\n > ");
+    printf ("Que desea hacer?\nCatalogo de productos(1)\nCarritos de compra(2)\nImportar Archivo (3)\nEXIT(4)\n > ");
     scanf("%d", &res);
     printf("\n");
     //Catálogo de compras
